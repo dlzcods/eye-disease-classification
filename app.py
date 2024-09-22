@@ -29,7 +29,7 @@ example_images = [
     ["exp_eye_images/108_right_h.png"],
     ["exp_eye_images/1062_right_c.png"],
     ["exp_eye_images/1084_right_c.png"],
-    ["exp_eye_images/image_1002_g.png"]
+    ["exp_eye_images/image_1002_g.jpg"]
 ]
 
 # Gradio Interface
