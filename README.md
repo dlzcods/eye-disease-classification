@@ -1,3 +1,15 @@
+---
+title: Eye Disease Classification
+emoji: 👀
+colorFrom: gray
+colorTo: pink
+sdk: gradio
+sdk_version: 4.44.0
+app_file: app.py
+pinned: false
+---
+
+
 # Eye Disease Classification
 ## Introduction
 Eye health is a critical aspect of overall well-being, yet many individuals remain unaware of the conditions that can affect their vision. As the prevalence of eye diseases such as cataracts, diabetic retinopathy, and glaucoma continues to rise, early detection becomes increasingly essential. These conditions can lead to severe vision impairment or blindness if not identified and treated promptly.
@@ -66,16 +78,3 @@ To further refine the model, several advanced techniques could be employed:
 
 By incorporating these techniques, the model can be further refined, enhancing its performance and adaptability in real-world medical applications. This project not only served as an important learning experience but also highlighted the vast potential machine learning holds for revolutionizing healthcare diagnostics.
 
-
----
-title: Eye Disease Classification
-emoji: 👀
-colorFrom: gray
-colorTo: pink
-sdk: gradio
-sdk_version: 4.44.0
-app_file: app.py
-pinned: false
----
-
-Check out the configuration reference at https://huggingface.co/docs/hub/spaces-config-reference
