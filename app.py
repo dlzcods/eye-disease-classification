@@ -25,11 +25,11 @@ def predict_image(image):
 # Example images
 example_images = [
     ["exp_eye_images/0_right_h.png"],
-    ["exp_eye_images/03fd50da928d_dr"],
-    ["exp_eye_images/108_right_h"],
-    ["exp_eye_images/1062_right_c"],
-    ["exp_eye_images/1084_right_c"],
-    ["exp_eye_images/image_1002_g"]
+    ["exp_eye_images/03fd50da928d_dr.png"],
+    ["exp_eye_images/108_right_h.png"],
+    ["exp_eye_images/1062_right_c.png"],
+    ["exp_eye_images/1084_right_c.png"],
+    ["exp_eye_images/image_1002_g.png"]
 ]
 
 # Gradio Interface
