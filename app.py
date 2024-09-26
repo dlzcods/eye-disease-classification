@@ -25,7 +25,12 @@ def get_disease_detail(disease_name):
         "Reminder: Always seek professional help, such as a doctor."
     )
     response = genai.GenerativeModel("gemini-1.5-flash").generate_content(prompt)
-    return response.text.strip()
+
+    # Make sure we check for candidates and handle possible missing attributes correctly
+    if response.candidates and response.candidates[0].text:
+        return response.candidates[0].text.strip()
+    else:
+        return "No detailed explanation available."
 
 def safe_extract_section(text, start_keyword, end_keyword):
     """ Safely extract sections from the Gemini response based on start and end keywords."""
