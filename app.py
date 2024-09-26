@@ -58,7 +58,7 @@ example_images = [
 # Custom CSS for Markdown height
 css = """
 .scrollable-markdown {
-    height: 250px;
+    height: 50px;
     overflow-y: scroll;
     border: 1px solid #ccc;
     padding: 10px;
