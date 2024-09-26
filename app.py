@@ -73,7 +73,7 @@ interface = gr.Interface(
     inputs=gr.Image(type="pil"),
     outputs=[
         gr.Label(num_top_classes=1, label="Prediction"), 
-        gr.HTML(label="Explanation", elem_classes=["scrollable-html"]))
+        gr.HTML(label="Explanation", elem_classes=["scrollable-html"])
     ],
     examples=example_images,
     title="Eye Diseases Classifier",
