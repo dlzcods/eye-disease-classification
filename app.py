@@ -64,13 +64,11 @@ example_images = [
 # Custom CSS for HTML height
 css = """
 .scrollable-html {
-    min-height: 207px;
-    max-height: 250px;  
+    height: 206px;
     overflow-y: auto;  
     border: 1px solid #ccc;  
     padding: 10px;  
     box-sizing: border-box;
-    transition: max-height 0.3s ease;
 }
 """
 
