@@ -61,7 +61,7 @@ interface = gr.Interface(
     inputs=gr.Image(type="pil"),
     outputs=[
         gr.Label(num_top_classes=1, label="Prediction"), 
-        gr.Textbox(label="Explanation", lines=15)
+        gr.Markdown(label="Explanation", lines=15)
     ],
     examples=example_images,
     title="Eye Diseases Classifier",
