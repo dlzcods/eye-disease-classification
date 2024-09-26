@@ -64,29 +64,14 @@ example_images = [
 # Custom CSS for HTML height
 css = """
 .scrollable-html {
-    height: 207px;  
+    min-height: 207px;
+    max-height: 250px;  
     overflow-y: auto;  
     border: 1px solid #ccc;  
     padding: 10px;  
     box-sizing: border-box;
-    transition: height 0.3s ease;
+    transition: max-height 0.3s ease;
 }
-"""
-
-# Custom JavaScript to dynamically adjust height
-js = """
-<script>
-    function adjustHeight() {
-        const outputElement = document.querySelector('.scrollable-html');
-        if (outputElement && outputElement.innerHTML.trim() !== '') {
-            outputElement.style.height = '250px';
-        } else {
-            outputElement.style.height = '207px';
-        }
-    }
-    document.addEventListener('DOMContentLoaded', adjustHeight);
-    setInterval(adjustHeight, 1000);  // Check every second to adjust height
-</script>
 """
 
 # Gradio Interface
@@ -107,5 +92,4 @@ interface = gr.Interface(
     css=css
 )
 
-# Inject the custom JavaScript for dynamic height
-interface.launch(share=True, inline=False, scripts=js)
+interface.launch(share=True)
