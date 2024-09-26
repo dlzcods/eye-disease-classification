@@ -4,6 +4,7 @@ import numpy as np
 from PIL import Image
 import google.generativeai as genai 
 import os
+import markdown2
 
 # Load the TensorFlow model
 model_path = 'model'
@@ -25,7 +26,7 @@ def get_disease_detail(disease_name):
     )
     try:
         response = genai.GenerativeModel("gemini-1.5-flash").generate_content(prompt)
-        return response.text.strip()
+        return markdown2.markdown(response.text.strip())
     except Exception as e:
         return f"Error: {e}"
 
@@ -55,14 +56,14 @@ example_images = [
     ["exp_eye_images/image_1002_g.jpg"]
 ]
 
-# Custom CSS for Markdown height
+# Custom CSS for HTML height
 css = """
-.scrollable-markdown {
-    height: 50px;
-    overflow-y: scroll;
-    border: 1px solid #ccc;
-    padding: 10px;
-    box-sizing: border-box;
+.scrollable-html {
+    height: 200px;  /* Adjust this height as needed */
+    overflow-y: auto;  /* Enable vertical scrolling */
+    border: 1px solid #ccc;  /* Optional: border for visibility */
+    padding: 10px;  /* Optional: padding for content */
+    box-sizing: border-box;  /* Include padding in height calculation */
 }
 """
 
@@ -72,7 +73,7 @@ interface = gr.Interface(
     inputs=gr.Image(type="pil"),
     outputs=[
         gr.Label(num_top_classes=1, label="Prediction"), 
-        gr.Markdown(label="Explanation", elem_classes=["scrollable-markdown"])
+        gr.HTML(label="Explanation", elem_classes=["scrollable-html"]))
     ],
     examples=example_images,
     title="Eye Diseases Classifier",
@@ -80,7 +81,8 @@ interface = gr.Interface(
         "Upload an image of an eye fundus, and the model will predict it.\n\n"
         "**Disclaimer:** This model is intended as a form of learning process in the field of health-related machine learning and was trained with a limited amount and variety of data with a total of about 4000 data, so the prediction results may not always be correct. There is still a lot of room for improvisation on this model in the future."
     ),
-    allow_flagging="never"
+    allow_flagging="never",
+    css=css
 )
 
 interface.launch(share=True)
