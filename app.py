@@ -2,7 +2,7 @@ import gradio as gr
 import tensorflow as tf
 import numpy as np
 from PIL import Image
-import google.generativeasi as genai 
+import google.generativeai as genai 
 import os
 
 model_path = 'model'
