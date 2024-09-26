@@ -40,10 +40,10 @@ def predict_image(image):
 
   formatted_explanation = (
     f"**Diagnosis:** {top_label}\n\n"
-    f"**What is it?**\n{explanation.split('What causes it?')[0].strip()}\n\n"
-    f"**What causes it?**\n{explanation.split('What causes it?')[1].split('Suggestion')[0].strip()}\n\n"
-    f"**Suggestion**\n{explanation.split('Suggestion')[1].split('Reminder')[0].strip()}\n\n"
-    f"**Reminder:** Always seek professional help, such as a doctor."
+        f"**What is it?** {explanation.split('What causes it?')[0].split('Suggestions')[0].strip()}\n\n"
+        f"**What causes it?** {explanation.split('What causes it?')[1].split('Suggestions')[0].strip()}\n\n"
+        f"**Suggestions:** {explanation.split('Suggestions')[1].split('Reminder')[0].strip()}\n\n"
+        f"**Reminder:** Always seek professional help, such as a doctor."
   )
 
   return {top_label: top_probability}, formatted_explanation  
@@ -62,10 +62,15 @@ example_images = [
 interface = gr.Interface(
     fn=predict_image,
     inputs=gr.Image(type="pil"),
-    outputs=[gr.Label(num_top_classes=1, label="Prediction"), gr.Textbox(label="Explanation")],
+    outputs=[
+      gr.Label(num_top_classes=1, label="Prediction"), 
+      gr.Textbox(label="Explanation")],
     examples=example_images,
     title="Eye Diseases Classifier",
-    description="Upload an image of an eye fundus, and the model will predict it.\n\n**Disclaimer:** This model is intended as a form of learning process in the field of health-related machine learning and was trained with a limited amount and variety of data with a total of about 4000 data, so the prediction results may not always be correct. There is still a lot of room for improvisation on this model in the future.",
+    description=(
+      "Upload an image of an eye fundus, and the model will predict it.\n\n"
+      "**Disclaimer:** This model is intended as a form of learning process in the field of health-related machine learning and was trained with a limited amount and variety of data with a total of about 4000 data, so the prediction results may not always be correct. There is still a lot of room for improvisation on this model in the future."
+    ),
     allow_flagging="never"
 )
 
