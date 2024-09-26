@@ -2,14 +2,12 @@ import gradio as gr
 import tensorflow as tf
 import numpy as np
 from PIL import Image
-import google.generativeai as genai 
+import google.generativeai as genai
 import os
 
-# Load the TensorFlow model
 model_path = 'model'
 model = tf.saved_model.load(model_path)
 
-# Configure Gemini API
 api_key = os.getenv("GEMINI_API_KEY")
 genai.configure(api_key=api_key)
 
@@ -23,11 +21,8 @@ def get_disease_detail(disease_name):
         "Suggestion\n(Suggestion to user)\n\n"
         "Reminder: Always seek professional help, such as a doctor."
     )
-    try:
-        response = genai.GenerativeModel("gemini-1.5-flash").generate_content(prompt)
-        return response.text.strip()
-    except Exception as e:
-        return f"Error: {e}"
+    response = genai.GenerativeModel("gemini-1.5-flash").generate_content(prompt)
+    return response.candidates[0]['output'] if response.candidates else "No explanation available."
 
 def predict_image(image):
     image_resized = image.resize((224, 224))
@@ -41,8 +36,10 @@ def predict_image(image):
     top_label = labels[top_index]
     top_probability = predictions.numpy()[0][top_index] * 100  # Convert to percentage
 
+    # Fetch explanation from Gemini API
     explanation = get_disease_detail(top_label)
 
+    # Construct output
     return {top_label: top_probability}, explanation
 
 # Example images
@@ -61,7 +58,7 @@ interface = gr.Interface(
     inputs=gr.Image(type="pil"),
     outputs=[
         gr.Label(num_top_classes=1, label="Prediction"), 
-        gr.Textbox(label="Explanation", lines=15)
+        gr.Markdown(label="Explanation")  # Using Markdown to render formatted text
     ],
     examples=example_images,
     title="Eye Diseases Classifier",
