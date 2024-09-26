@@ -1,4 +1,5 @@
 gradio
+google-generativeai
 tensorflow
 numpy
 Pillow
