@@ -14,9 +14,15 @@ genai.configure(api_key=api_key)
 labels = ['cataract', 'diabetic_retinopathy', 'glaucoma', 'normal']
 
 def get_disease_detail(disease_name):
-  prompt = f"Diagnosis: {disease_name}\n\nWhat is it?\n(Description about {disease_name})\n\nWhat cause it?\n(Explain what causes {disease_name})\n\nSuggestion\n(Suggestion to user)\n\nReminder: Always seek professional help, such as a doctor."
+  prompt = (
+  f"Diagnosis: {disease_name}\n\n"
+  "What is it?\n(Description about {disease_name})\n\n"
+  "What cause it?\n(Explain what causes {disease_name})\n\n"
+  "Suggestion\n(Suggestion to user)\n\n"
+  "Reminder: Always seek professional help, such as a doctor."
+  )
   response = genai.GenerativeModel("gemini-1.5-flash").generate_content(prompt)
-  return response.text
+  return response.text.strip()
 
 def predict_image(image):
   image_resized = image.resize((224, 224))
@@ -32,7 +38,15 @@ def predict_image(image):
 
   explanation = get_disease_detail(top_label)
 
-  return top_label, explanation  
+  formatted_explanation = (
+    f"**Diagnosis:** {top_label}\n\n"
+    f"**What is it?**\n{explanation.split('What causes it?')[0].strip()}\n\n"
+    f"**What causes it?**\n{explanation.split('What causes it?')[1].split('Suggestion')[0].strip()}\n\n"
+    f"**Suggestion**\n{explanation.split('Suggestion')[1].split('Reminder')[0].strip()}\n\n"
+    f"**Reminder:** Always seek professional help, such as a doctor."
+  )
+
+  return {top_label: top_probability}, formatted_explanation  
 
 # Example images
 example_images = [
