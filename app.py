@@ -19,12 +19,7 @@ labels = ['cataract', 'diabetic_retinopathy', 'glaucoma', 'normal']
 def get_disease_detail(disease_name):
     if disease_name == "normal":
         prompt = (
-            "Hello! Your eye health looks great. Keep up the good work!\n\n"
-            "Here are some tips to maintain healthy eyes:\n"
-            "- Eat a balanced diet rich in vitamins A, C, and E.\n"
-            "- Get regular eye check-ups.\n"
-            "- Protect your eyes from UV light by wearing sunglasses.\n"
-            "Stay healthy and always take care of your eyes!"
+            "create a text to congratulate and welcome them and give them tips to keep their eyes healthy, then remind them to check up with their doctor."
         )
     else:
         prompt = (
