@@ -17,13 +17,23 @@ genai.configure(api_key=api_key)
 labels = ['cataract', 'diabetic_retinopathy', 'glaucoma', 'normal']
 
 def get_disease_detail(disease_name):
-    prompt = (
-        f"Diagnosis: {disease_name}\n\n"
-        "What is it?\n(Description about {disease_name})\n\n"
-        "What causes it?\n(Explain what causes {disease_name})\n\n"
-        "Suggestion\n(Suggestion to user)\n\n"
-        "Reminder: Always seek professional help, such as a doctor."
-    )
+    if disease_name == "normal":
+        prompt = (
+            "Hello! Your eye health looks great. Keep up the good work!\n\n"
+            "Here are some tips to maintain healthy eyes:\n"
+            "- Eat a balanced diet rich in vitamins A, C, and E.\n"
+            "- Get regular eye check-ups.\n"
+            "- Protect your eyes from UV light by wearing sunglasses.\n"
+            "Stay healthy and always take care of your eyes!"
+        )
+    else:
+        prompt = (
+            f"Diagnosis: {disease_name}\n\n"
+            "What is it?\n(Description about {disease_name})\n\n"
+            "What causes it?\n(Explain what causes {disease_name})\n\n"
+            "Suggestion\n(Suggestion to user)\n\n"
+            "Reminder: Always seek professional help, such as a doctor."
+        )
     try:
         response = genai.GenerativeModel("gemini-1.5-flash").generate_content(prompt)
         return markdown2.markdown(response.text.strip())
@@ -59,7 +69,7 @@ example_images = [
 # Custom CSS for HTML height
 css = """
 .scrollable-html {
-    height: 200px;  /* Adjust this height as needed */
+    height: 280px;  /* Adjust this height as needed */
     overflow-y: auto;  /* Enable vertical scrolling */
     border: 1px solid #ccc;  /* Optional: border for visibility */
     padding: 10px;  /* Optional: padding for content */
