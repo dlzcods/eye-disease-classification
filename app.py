@@ -55,13 +55,24 @@ example_images = [
     ["exp_eye_images/image_1002_g.jpg"]
 ]
 
+# Custom CSS for Markdown height
+css = """
+.scrollable-markdown {
+    height: 250px;
+    overflow-y: scroll;
+    border: 1px solid #ccc;
+    padding: 10px;
+    box-sizing: border-box;
+}
+"""
+
 # Gradio Interface
 interface = gr.Interface(
     fn=predict_image,
     inputs=gr.Image(type="pil"),
     outputs=[
         gr.Label(num_top_classes=1, label="Prediction"), 
-        gr.Markdown(label="Explanation")
+        gr.Markdown(label="Explanation", elem_classes=["scrollable-markdown"])
     ],
     examples=example_images,
     title="Eye Diseases Classifier",
