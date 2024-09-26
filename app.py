@@ -32,7 +32,7 @@ def predict_image(image):
 
   explanation = get_disease_detail(top_label)
 
-  return {top_label: top_probability, "explanation": explanation}  
+  return top_label, explanation  
 
 # Example images
 example_images = [
