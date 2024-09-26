@@ -22,7 +22,9 @@ def get_disease_detail(disease_name):
         "Reminder: Always seek professional help, such as a doctor."
     )
     response = genai.GenerativeModel("gemini-1.5-flash").generate_content(prompt)
-    return response.candidates[0]['output'] if response.candidates else "No explanation available."
+    
+    # Safely extract text from response (without using candidates)
+    return response.result if hasattr(response, 'result') else "No explanation available."
 
 def predict_image(image):
     image_resized = image.resize((224, 224))
