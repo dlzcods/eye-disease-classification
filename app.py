@@ -69,7 +69,7 @@ example_images = [
 # Custom CSS for HTML height
 css = """
 .scrollable-html {
-    height: 280px;  /* Adjust this height as needed */
+    height: 240px;  /* Adjust this height as needed */
     overflow-y: auto;  /* Enable vertical scrolling */
     border: 1px solid #ccc;  /* Optional: border for visibility */
     padding: 10px;  /* Optional: padding for content */
