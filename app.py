@@ -5,14 +5,18 @@ from PIL import Image
 import google.generativeai as genai
 import os
 
+# Load the model
 model_path = 'model'
 model = tf.saved_model.load(model_path)
 
+# Configure Google Gemini API
 api_key = os.getenv("GEMINI_API_KEY")
 genai.configure(api_key=api_key)
 
+# Labels for the classification model
 labels = ['cataract', 'diabetic_retinopathy', 'glaucoma', 'normal']
 
+# Function to get disease details from Gemini API
 def get_disease_detail(disease_name):
     prompt = (
         f"Diagnosis: {disease_name}\n\n"
@@ -23,25 +27,28 @@ def get_disease_detail(disease_name):
     )
     response = genai.GenerativeModel("gemini-1.5-flash").generate_content(prompt)
     
-    # Safely extract text from response (without using candidates)
-    return response.result if hasattr(response, 'result') else "No explanation available."
+    # Safely extract the content of the response (adjust if different field is used)
+    return response.result.strip() if hasattr(response, 'result') else "No explanation available."
 
+# Prediction function for the image
 def predict_image(image):
+    # Preprocess image
     image_resized = image.resize((224, 224))
     image_array = np.array(image_resized).astype(np.float32) / 255.0
     image_array = np.expand_dims(image_array, axis=0)
 
+    # Get model predictions
     predictions = model.signatures['serving_default'](tf.convert_to_tensor(image_array, dtype=tf.float32))['output_0']
     
-    # Highest prediction
+    # Get highest probability prediction
     top_index = np.argmax(predictions.numpy(), axis=1)[0]
     top_label = labels[top_index]
-    top_probability = predictions.numpy()[0][top_index] * 100  # Convert to percentage
+    top_probability = predictions.numpy()[0][top_index]
 
     # Fetch explanation from Gemini API
     explanation = get_disease_detail(top_label)
 
-    # Construct output
+    # Return the prediction and the explanation
     return {top_label: top_probability}, explanation
 
 # Example images
@@ -60,7 +67,7 @@ interface = gr.Interface(
     inputs=gr.Image(type="pil"),
     outputs=[
         gr.Label(num_top_classes=1, label="Prediction"), 
-        gr.Markdown(label="Explanation")  # Using Markdown to render formatted text
+        gr.Textbox(label="Explanation")  # Regular Textbox for normal text
     ],
     examples=example_images,
     title="Eye Diseases Classifier",
@@ -71,4 +78,5 @@ interface = gr.Interface(
     allow_flagging="never"
 )
 
+# Launch the interface
 interface.launch(share=True)
