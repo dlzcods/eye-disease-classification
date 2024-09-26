@@ -2,11 +2,21 @@ import gradio as gr
 import tensorflow as tf
 import numpy as np
 from PIL import Image
+import google.generativeasi as genai 
+import os
 
 model_path = 'model'
 model = tf.saved_model.load(model_path)
 
+api_key = os.getenv("GEMINI_API_KEY")
+genai.configure(api_key=api_key)
+
 labels = ['cataract', 'diabetic_retinopathy', 'glaucoma', 'normal']
+
+def get_disease_detail(disease_name):
+  prompt = f"Diagnosis: {disease_name}\n\nWhat is it?\n(Description about {disease_name})\n\nWhat cause it?\n(Explain what causes {disease_name})\n\nSuggestion\n(Suggestion to user)\n\nReminder: Always seek professional help, such as a doctor."
+  response = genai.GenerativeModel("gemini-1.5-flash").generate_content(prompt)
+  return response.text
 
 def predict_image(image):
   image_resized = image.resize((224, 224))
@@ -20,7 +30,9 @@ def predict_image(image):
   top_label = labels[top_index]
   top_probability = predictions.numpy()[0][top_index]
 
-  return {top_label:top_probability}  
+  explanation = get_disease_detail(top_label)
+
+  return {top_label: top_probability, "explanation": explanation}  
 
 # Example images
 example_images = [
@@ -36,7 +48,7 @@ example_images = [
 interface = gr.Interface(
     fn=predict_image,
     inputs=gr.Image(type="pil"),
-    outputs=gr.Label(num_top_classes=1, label="Prediction"),
+    outputs=[gr.Label(num_top_classes=1, label="Prediction"), gr.Textbox(label="Explanation")],
     examples=example_images,
     title="Eye Diseases Classifier",
     description="Upload an image of an eye fundus, and the model will predict it.\n\n**Disclaimer:** This model is intended as a form of learning process in the field of health-related machine learning and was trained with a limited amount and variety of data with a total of about 4000 data, so the prediction results may not always be correct. There is still a lot of room for improvisation on this model in the future.",
