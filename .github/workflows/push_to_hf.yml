@@ -1,11 +1,11 @@
 uses: nateraw/huggingface-sync-action@v0.0.5
 with:
   # The github repo you are syncing from. Required.
-  github_repo_id: ''
+  github_repo_id: 'dlzcods/eye-disease-classification'
 
   # The Hugging Face repo id you want to sync to. (ex. 'username/reponame')
   # A repo with this name will be created if it doesn't exist. Required.
-  huggingface_repo_id: ''
+  huggingface_repo_id: 'dielz/xenon-001'
 
   # Hugging Face token with write access. Required.
   # Here, we provide a token that we called `HF_TOKEN` when we added the secret to our GitHub repo.
@@ -13,7 +13,7 @@ with:
 
   # The type of repo you are syncing to: model, dataset, or space.
   # Defaults to space.
-  repo_type: 'space'
+  repo_type: 'model'
   
   # If true and the Hugging Face repo doesn't already exist, it will be created
   # as a private repo.
